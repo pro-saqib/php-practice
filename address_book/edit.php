@@ -1,45 +1,33 @@
 <?php
 include 'includes/db.php';
 
-// Check if ID parameter is set in the URL
-if (isset($_GET['id'])) {
-    // Retrieve contact ID from URL
-    $contact_id = $_GET['id'];
+ if (isset($_GET['id'])) {
+     $contact_id = $_GET['id'];
 
-    // Prepare SQL statement to select contact by ID
-    $sql = "SELECT * FROM contacts WHERE id = ?";
+     $sql = "SELECT * FROM contacts WHERE id = ?";
     
-    // Prepare a prepared statement
-    $stmt = $conn->prepare($sql);
+     $stmt = $conn->prepare($sql);
 
-    // Bind parameter
-    $stmt->bind_param("i", $contact_id);
+     $stmt->bind_param("i", $contact_id);
 
-    // Execute the statement
-    $stmt->execute();
+     $stmt->execute();
 
-    // Get result
-    $result = $stmt->get_result();
+     $result = $stmt->get_result();
 
-    // Check if contact exists
-    if ($result->num_rows == 1) {
-        // Fetch contact details
-        $row = $result->fetch_assoc();
+     if ($result->num_rows == 1) {
+         $row = $result->fetch_assoc();
         $name = $row['name'];
         $email = $row['email'];
         $phone = $row['phone'];
         $address = $row['address'];
     } else {
-        // Redirect to index.php if contact does not exist
-        header("Location: index.php");
+         header("Location: index.php");
         exit();
     }
 
-    // Close statement
-    $stmt->close();
+     $stmt->close();
 } else {
-    // Redirect to index.php if ID parameter is not set
-    header("Location: index.php");
+     header("Location: index.php");
     exit();
 }
 ?>
